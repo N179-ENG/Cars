@@ -45,7 +45,7 @@ fun main(){
     val finalPrice=safeInput("choose final price you want:", true)
     println("how do you want to pay visa/cash) ?")
 
-    if (newCarList5.isNotEmpty()) {
+  /*  if (newCarList5.isNotEmpty()) {
         println("\n--- Payment Process ---")
         val paymentMethod = safeInput("How do you want to pay? (visa/cash):", true)
 
@@ -70,6 +70,32 @@ fun main(){
         }
     } else {
         println("No process to complete because no cars were found.")
+    }*/
+    // ... (بعد التأكد إن فيه عربيات مطابقة في newCarList5)
+
+    if (newCarList5.isNotEmpty()) {
+        val selectedCar = newCarList5.first() 
+        val priceToPay = selectedCar.price
+
+        println("\n--- Checkout ---")
+        val choice = safeInput("Choose payment method (1 for Visa, 2 for Cash):", false)
+
+
+        val payment: Payment = when (choice) {
+            "1" -> {
+                println("Enter your 16-digit card number:")
+                val card = readlnOrNull() ?: ""
+                VisaPayment(card)
+            }
+            "2" -> CashPayment()
+            else -> Payment()
+        }
+
+
+        payment.processPayment(priceToPay)
+
+    } else {
+        println("No cars found to purchase.")
     }
 }
 
